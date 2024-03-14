@@ -4,7 +4,7 @@ class ApplicationController < ActionController::API
   # GET /hels
   def hels
     render plain: Order.count.to_s
-  rescue => e
-    render plain: "#{e.class}: #{e.message}"
+  rescue => exception
+    render plain: "#{exception.class}: #{exception.message}"
   end
 end

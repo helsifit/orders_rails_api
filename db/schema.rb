@@ -16,31 +16,31 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_13_234302) do
 
   create_table "line_items", force: :cascade do |t|
     t.bigint "order_id", null: false
-    t.string "product_variant_key", null: false
-    t.integer "unit_amount", null: false
+    t.string "product_variant_key", default: "unset", null: false
+    t.integer "unit_amount", default: 0, null: false
     t.integer "quantity", default: 1, null: false
     t.index ["order_id"], name: "index_line_items_on_order_id"
   end
 
   create_table "orders", force: :cascade do |t|
-    t.uuid "token", null: false
-    t.string "psp", null: false
-    t.string "country_code", null: false
-    t.string "email"
-    t.string "first_name", null: false
-    t.string "last_name", null: false
-    t.string "address1", null: false
-    t.string "address2"
-    t.string "city", null: false
-    t.string "zone"
-    t.string "postal_code", null: false
-    t.string "currency", limit: 7, null: false
-    t.integer "total_amount"
+    t.string "psp", default: "deferred", null: false
+    t.string "country_code", default: "", null: false
+    t.string "currency", limit: 7, default: "", null: false
+    t.integer "total_amount", default: 0, null: false
     t.boolean "paid", default: false, null: false
     t.boolean "canceled", default: false, null: false
+    t.string "email"
+    t.string "first_name", default: "", null: false
+    t.string "last_name", default: "", null: false
+    t.string "address1", default: "", null: false
+    t.string "address2"
+    t.string "city", default: "", null: false
+    t.string "zone"
+    t.string "postal_code", default: "", null: false
+    t.uuid "token", null: false
     t.string "stripe_session_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["token"], name: "index_orders_on_token", unique: true
   end
 
