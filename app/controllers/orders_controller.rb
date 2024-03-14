@@ -7,8 +7,7 @@ class OrdersController < ApplicationController
 
   # POST /orders
   def create
-    order, line_items = OrderCreator.call(order_params)
-    payment_session_url = PaymentInitiator.call(order, line_items)
+    payment_session_url = OrderProcessor.call(order_params)
 
     redirect_to payment_session_url, allow_other_host: true, status: 303
   end

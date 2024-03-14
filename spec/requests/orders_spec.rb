@@ -65,18 +65,18 @@ RSpec.describe "/orders", type: :request do
       context "invalid currency" do
         let(:invalid_attributes) { valid_attributes.merge(currency: "EEE") }
 
-        it "does not create a new Order" do
+        it "saves invalid new Order" do
           expect {
             post orders_url,
               params: {order: invalid_attributes}, as: :json
-          }.to change(Order, :count).by(0)
+          }.to change(Order, :count).by(1)
         end
 
         it "redirects with error" do
           post "/orders", params: {order: invalid_attributes}, as: :json
 
           expect(response).to be_redirect
-          expect(response.headers["Location"]).to eq("http://localhost:9000/error.html?error=Currency+cannot+be+used+at+this+moment")
+          expect(response.headers["Location"]).to eq("http://localhost:9000/error.html?error=Sorry%2C+we+cannot+process+the+order%3A+Currency+cannot+be+used+at+this+moment.")
         end
       end
 
@@ -88,14 +88,14 @@ RSpec.describe "/orders", type: :request do
             post orders_url,
               params: {order: invalid_attributes}, as: :json
           }.to change(Order, :count).by(1)
-          expect(order.line_items).to be_empty
+          expect(order.line_items.count).to eq(1)
         end
 
         it "redirects with error" do
           post "/orders", params: {order: invalid_attributes}, as: :json
 
           expect(response).to be_redirect
-          expect(response.headers["Location"]).to eq("http://localhost:9000/error.html?error=Unexpected+error")
+          expect(response.headers["Location"]).to eq("http://localhost:9000/error.html?error=Sorry%2C+we+cannot+process+the+order%3A+Product+variant+is+unknown.")
         end
       end
     end

@@ -1,8 +1,8 @@
 module Utils
   def self.user_facing_error_message(exception)
     case exception
-    when ActiveRecord::RecordInvalid
-      exception.record.errors.full_messages[0]
+    when OrderValidator::ValidationError
+      "Sorry, we cannot process the order: #{exception.message}"
     else
       "Unexpected error"
     end
