@@ -16,32 +16,32 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_13_234302) do
 
   create_table "line_items", force: :cascade do |t|
     t.bigint "order_id", null: false
-    t.string "product_variant_key", default: "unset", null: false
+    t.string "product_variant_key", limit: 255, default: "unset", null: false
     t.integer "unit_amount", default: 0, null: false
     t.integer "quantity", default: 1, null: false
     t.index ["order_id"], name: "index_line_items_on_order_id"
   end
 
   create_table "orders", force: :cascade do |t|
-    t.string "psp", default: "deferred", null: false
-    t.string "country_code", default: "", null: false
-    t.string "currency", limit: 7, default: "", null: false
+    t.string "psp", limit: 255, default: "deferred", null: false
+    t.string "country_code", limit: 255, default: "", null: false
+    t.string "currency", limit: 3, default: "", null: false
     t.integer "total_amount", default: 0, null: false
     t.boolean "paid", default: false, null: false
     t.boolean "canceled", default: false, null: false
-    t.string "email"
-    t.string "first_name", default: "", null: false
-    t.string "last_name", default: "", null: false
-    t.string "address1", default: "", null: false
-    t.string "address2"
-    t.string "city", default: "", null: false
-    t.string "zone"
-    t.string "postal_code", default: "", null: false
+    t.string "email", limit: 255
+    t.string "first_name", limit: 255, default: "", null: false
+    t.string "last_name", limit: 255, default: "", null: false
+    t.string "address1", limit: 255, default: "", null: false
+    t.string "address2", limit: 255
+    t.string "city", limit: 255, default: "", null: false
+    t.string "zone", limit: 255
+    t.string "postal_code", limit: 255, default: "", null: false
     t.uuid "token", null: false
-    t.string "stripe_session_id"
+    t.string "stripe_session_id", limit: 255
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["token"], name: "index_orders_on_token", unique: true
+    t.index ["token"], name: "orders_token_index", unique: true
   end
 
   add_foreign_key "line_items", "orders", on_delete: :restrict

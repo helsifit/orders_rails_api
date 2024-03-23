@@ -28,7 +28,7 @@ Start development server:
 bundle exec rails server
 ~~~
 
-## [API](/API.md)
+## [API](/doc/API.md)
 
 Create Order with JSON data:
 
